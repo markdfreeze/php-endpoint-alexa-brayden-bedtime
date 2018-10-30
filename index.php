@@ -7,15 +7,15 @@ date_default_timezone_set('UTC');
 
 $SignatureCertChainUrl = $_SERVER['HTTP_SIGNATURECERTCHAINURL'];
 
-if ('amzn1.ask.skill.d6e0703a-5804-46a2-8ea6-333e163d4089' == $post->session->application->applicationId AND $post->request->timestamp > date('Y-m-d\TH:i:s\Z', time()-150) AND preg_match('/https:\/\/s3\.amazonaws\.com(:433)?\/echo\.api\//', $SignatureCertChainUrl)) {
+if ('amzn1.ask.skill.2011a0b2-76d8-4c06-9bce-c2ed0a238dc1' == $post->session->application->applicationId AND $post->request->timestamp > date('Y-m-d\TH:i:s\Z', time()-150) AND preg_match('/https:\/\/s3\.amazonaws\.com(:433)?\/echo\.api\//', $SignatureCertChainUrl)) {
 	$SignatureCertChainUrl_File = md5($SignatureCertChainUrl);
 	$SignatureCertChainUrl_File = $SignatureCertChainUrl_File . '.pem';
-	 
+
 	if (!file_exists($SignatureCertChainUrl_File)) {
 		file_put_contents($SignatureCertChainUrl_File, file_get_contents($SignatureCertChainUrl));
-	}	
+	}
 
-	$SignatureCertChainUrl_Content = file_get_contents($SignatureCertChainUrl_File);	
+	$SignatureCertChainUrl_Content = file_get_contents($SignatureCertChainUrl_File);
 	$Signature_Content = $_SERVER['HTTP_SIGNATURE'];
 
 	$SignatureCertChainUrl_Content_Array = openssl_x509_parse($SignatureCertChainUrl_Content);
@@ -28,7 +28,7 @@ if ('amzn1.ask.skill.d6e0703a-5804-46a2-8ea6-333e163d4089' == $post->session->ap
 
 	if (preg_match('/echo-api\.amazon\.com/', base64_decode($SignatureCertChainUrl_Content)) AND $SignatureCertChainUrl_Content_Array['validTo_time_t'] > time() AND $SignatureCertChainUrl_Content_Array['validFrom_time_t'] < time() AND $Signature_Content AND $Signature_Verify == 1) {
 		header ('Content-Type: application/json');
-		
+
 		$PHP_Output = array('version' => '1.0', 'response' => array('outputSpeech' => array('type' => 'PlainText')));
 
 		$PHP_Output['response']['outputSpeech']['text'] = 'Hello world!';
