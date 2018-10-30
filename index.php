@@ -7,7 +7,7 @@ date_default_timezone_set('UTC');
 
 $SignatureCertChainUrl = $_SERVER['HTTP_SIGNATURECERTCHAINURL'];
 
-if ('amzn1.ask.skill.62262325-6f8d-4833-a590-aa3a22aaf211' == $post->session->application->applicationId AND $post->request->timestamp > date('Y-m-d\TH:i:s\Z', time()-150) AND preg_match('/https:\/\/s3\.amazonaws\.com(:433)?\/echo\.api\//', $SignatureCertChainUrl)) {
+if ('amzn1.ask.skill.d6e0703a-5804-46a2-8ea6-333e163d4089' == $post->session->application->applicationId AND $post->request->timestamp > date('Y-m-d\TH:i:s\Z', time()-150) AND preg_match('/https:\/\/s3\.amazonaws\.com(:433)?\/echo\.api\//', $SignatureCertChainUrl)) {
 	$SignatureCertChainUrl_File = md5($SignatureCertChainUrl);
 	$SignatureCertChainUrl_File = $SignatureCertChainUrl_File . '.pem';
 	 
